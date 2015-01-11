@@ -1,0 +1,5 @@
+name = Aller LinkedIn Profile Pane
+description = Provides a reusable LinkedIn Profile pane to panels
+core = 7.x
+dependencies[] = ctools
+files[] = aller_linkedin.module

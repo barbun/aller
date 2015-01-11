@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * 
+ * This is the main module file for Aller LinkedIn custom module.
+ *
+ */
+
+
+/**
+ * Implements hook_menu().
+ */
+function aller_linkedin_menu() {
+  $items = array();
+  
+  $items['admin/config/development/aller_linkedin'] = array(
+    'title' => 'Aller LinkedIn settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('aller_linkedin_admin_settings_form'),
+    'access arguments' => array('administer aller_linkedin'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+  return $items;
+}
+
+
+/**
+ * General Aller LinkedIn module settings
+ *
+ * @return system settings form
+ */
+function aller_linkedin_admin_settings_form() {
+  $form = array();
+  
+  $form['aller_linkedin_apikey'] = array(
+    '#type' => 'textfield',
+    '#title' => t('LinkedIn API Key'),
+    '#default_value' => variable_get('aller_linkedin_apikey', ''),
+    '#required' => TRUE,
+  );
+  
+  $form['aller_linkedin_secret'] = array(
+    '#type' => 'textfield',
+    '#title' => t('LinkedIn Secret Key'),
+    '#default_value' => variable_get('aller_linkedin_secret', ''),
+    '#required' => FALSE,
+  );
+  
+  $form['aller_linkedin_oauth_token'] = array(
+    '#type' => 'textfield',
+    '#title' => t('LinkedIn OAuth User Token'),
+    '#default_value' => variable_get('aller_linkedin_oauth_token', ''),
+    '#required' => FALSE,
+  );
+  
+  $form['aller_linkedin_oauth_secret'] = array(
+    '#type' => 'textfield',
+    '#title' => t('LinkedIn OAuth User Secret'),
+    '#default_value' => variable_get('aller_linkedin_secret', ''),
+    '#required' => FALSE,
+  );
+
+  return system_settings_form($form);
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function aller_linkedin_permission() {
+  return array(
+    'administer aller_linkedin' => array(
+      'title' => t('Aller LinkedIn'),
+      'description' => t('Allow to change Aller LinkedIn settings.'),
+    ),
+  );
+}
+
+
+/* 
+ * Implements hook_ctools_plugin_directory -
+ * This lets ctools to scan module for a content_type plugin file
+ */ 
+function aller_linkedin_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
